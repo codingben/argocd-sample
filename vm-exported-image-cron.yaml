@@ -1,0 +1,22 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataImportCron
+metadata:
+  name: example-vm-exported-image-cron
+  annotations:
+    "cdi.kubevirt.io/storage.bind.immediate.requested": "true"
+spec:
+  garbageCollect: Outdated
+  schedule: 55 2/12 * * *
+  managedDataSource: example-vm-exported
+  template:
+    metadata: {}
+    spec:
+      source:
+        registry:
+          pullMethod: node
+          url: docker://quay.io/boukhano/example-vm-exported:latest
+      storage:
+        resources:
+          requests:
+            storage: 30Gi
+    status: {}
